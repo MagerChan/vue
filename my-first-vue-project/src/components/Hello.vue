@@ -3,8 +3,9 @@
     <h1>{{ msg }}</h1>
     <h1 v-text="msg"></h1>
     <h1 v-html="msg"></h1>
+    <input v-model="newItem" @keyup.enter="addNew"/>
     <ul>
-      <li v-for="item in items" v-bind:class="{finished:item.isfinished}">
+      <li v-for="item in items" v-bind:class="{finished:item.isfinished}" v-on:click="toggleFinished(item)">
         {{item.label}}
       </li>
     </ul>
@@ -17,16 +18,20 @@ export default {
   data () {
     return {
       msg: '<span>??</span>Welcome to todo list',
-      items:[
-        {
-          label:'coding',
-          isfinished:false
-        },
-        {
-          label:'walking',
-          isfinished:true
-        }
-      ]
+      items:[],
+      newItem:''
+    }
+  },
+  methods:{
+    toggleFinished: function(item){
+      item.isfinished = !item.isfinished
+    },
+    addNew:function(){
+      this.items.push({
+        label:this.newItem,
+        isfinished:false
+      })
+      this.newItem=''
     }
   }
 }
@@ -39,12 +44,10 @@ h1, h2 {
 }
 
 ul {
-  list-style-type: none;
   padding: 0;
 }
 
 li {
-  display: inline-block;
   margin: 0 10px;
 }
 
