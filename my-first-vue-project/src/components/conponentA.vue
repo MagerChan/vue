@@ -1,12 +1,23 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div class="hello">
+    <h1>{{msg}}</h1>
+    <button v-on:click="OnClickMe">Click</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  data(){
+    return{
+      msg:'i love you'
+    }
+  },
+  props:['msgfromfather'],
+  methods:{
+    OnClickMe:function(){
+      this.$emit('child-tell-me-something',this.msg)
+    }
+  }
 }
 </script>
 
