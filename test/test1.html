@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>original message: {{message}}</p>
+		<p>computed reversed message: {{reversedMessage_c}}</p>
+		<button v-on:click="reverseMessage">reverse the message</button>
+		<input type="text" v-model="message">
+		<p v-if="seen">now you can see me</p>
+		<ul>
+			<li v-for="todo in todos">{{todo.text}}</li>
+		</ul>
+		<p>
+			<p>Ask a yes/no question:</p>
+			<input type="text" v-model='question'>
+		</p>
+		<p>{{answer}}</p>
+	</div>
+</body>
+<script type="text/javascript">
+	Vue.component=('todo-item',{
+		props:['todo'],
+		template:'<li>{{todo.text}}</li>'
+	})
+
+	var app=new Vue({
+		el:'#app',
+		data:{
+			message:'hello world',
+			seen:true,
+			todos:[
+			{text:'study javascript'},
+			{text:'study vuejs'},
+			{text:'code a very good project'}
+			],
+			question:'',
+			answer:'I cannot give you an answer until you ask a question'
+		},
+		watch:{
+			question:function(newQuestion){
+				this.answer="Waiting for you to stop typing",
+				this.getAnswer()
+			}
+		},
+		methods:{
+			reverseMessage:function(){
+				this.message=this.message.split('').reverse().join('')
+			},
+			getAnswer:_.debounce(
+				function(){
+					if(this.question.indexOf('?')===-1){
+						this.answer='Question usually contain a question mask.:-)'
+						return
+					}
+					this.answer='Thinking...'
+					var vm=this
+					axios.get('https://yesno.wtf/api')
+					.then(function(response){
+						vm.answer=_.capitalize(response.data.answer)
+					})
+					.catch(function(error){
+						vm.answer='Error！Could not reach the API'+error
+					})
+				},
+				500
+			)
+		},
+		computed:{
+			reversedMessage_c:function(){
+				return this.message.split('').reverse().join('');
+			}
+		}
+	})
+</script>
+</html>
