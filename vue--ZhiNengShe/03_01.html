@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="box">
+		<aaa>
+		</aaa>
+
+	</div>
+	<template id="aaa">
+		<div>
+			<span>i an father{{msg}}</span>
+			<input type="button" value="按钮">
+			<bbb @child-msg="get"></bbb>
+		</div>
+	</template>
+
+	<template id="bbb">
+		<div>
+			<h2>title2bbb{{a}}</h2>
+			<input type="button" value="send" @click="send">
+		</div>
+	</template>
+
+	<script type="text/javascript">
+		var vm=new Vue({
+			el:'#box',
+			data:{
+				a:'aaa',
+				msg:'111'
+			},
+			components:{
+				'aaa':{
+					data(){
+						return {
+							msg:111,
+							msg2:'father'
+						} 
+					},
+					methods:{
+						get(msg){
+							this.msg=msg;
+						}
+					},
+					template:'#aaa',
+					components:{
+						'bbb':{
+							/*props:['m','myMsg'],*/
+							/*props:{
+								'm':String,
+								'myMsg':Number
+							},*/
+							data(){
+								return{
+									a:'i am child component'
+								}
+							},
+							methods:{
+								send(){
+									this.$emit('child-msg',this.a);
+								}
+							},
+							template:'#bbb'
+						}
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

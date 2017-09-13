@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="box">
+		<aaa>
+			<ul slot="ul-slot">
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+			</ul>
+			<ol slot="ol-slot">
+				<li>aaa</li>
+				<li>bbb</li>
+				<li>ccc</li>
+				<li>ddd</li>
+			</ol>
+		</aaa>
+		<aaa></aaa>
+	</div>
+	<template id="aaa">
+		<div>
+			<h1>xxxx</h1>
+			<slot name="ol-slot">this is default situation</slot>
+			<slot name="ul-slot">this is default situation2</slot>
+			<p>welcome vue</p>
+		</div>
+	</template>
+
+	<script type="text/javascript">
+		var vm=new Vue({
+			el:'#box',
+			data:{
+				a:'aaa'
+			},
+			components:{
+				'aaa':{
+					template:'#aaa'
+				}
+			}
+		})
+	</script>
+</body>
+</html>

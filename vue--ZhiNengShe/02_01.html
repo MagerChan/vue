@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="box">
+		<!-- <my-aaa></my-aaa> -->
+		<input type="button" @click="a='aaa'" value="aaac">
+		<input type="button" @click="a='bbb'" value="bbbc">
+		<component :is="a"></component>
+	</div>
+	<!-- <template id="aaa">
+		<h1>title 1</h1>
+		<ul>
+			<li>aaa</li>
+			<li>ssss</li>
+		</ul>
+	</template> 
+	<script type="x-template" id='aaa'>
+		<h3 @click="change">i am title3</h3>
+	</script>-->
+	<script type="text/javascript">
+		/*var Aaa=Vue.extend({
+			data(){
+				return {
+					msg:'welcome'
+				};
+			},
+			methods:{
+				change(){
+					this.msg='changed'
+				}
+			},
+			template:'<h3 @click="change">i am title3{{msg}}</h3>'
+		});*/
+
+		//Vue.component('aaa',Aaa);
+
+		Vue.component('my-aaa',{
+			template:'#aaa'
+		});
+
+		var vm=new Vue({
+			el:'#box',
+			data:{
+				a:'aaa'
+			},
+			components:{
+				'aaa':{
+					template:'<h2>aaaa</h2>'
+				},
+				'bbb':{
+					template:'<h2>bbb</h2>'
+				}
+			}
+		})
+	</script>
+</body>
+</html>
